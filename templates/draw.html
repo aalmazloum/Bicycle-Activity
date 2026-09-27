@@ -50,17 +50,24 @@
                 color: white;
                 cursor: pointer;
             }
+
+            button:disabled {
+                background: #7c7c7c;
+                cursor: not-allowed;
+            }
         </style>
     </head>
     <body>
         <h1>Draw a bicycle from memory</h1>
         <p>Don't look anything up. Just draw what you remember!</p>
-        <label for="name">Your name (optional)</label>
-        <input id="name" type="text" maxlength="50" placeholder="e.g. Alex">
+        <label for="name">Your full name</label>
+        <input id="name" type="text" maxlength="50" placeholder="First and last name" required>
         <canvas id="board" width="800" height="600"></canvas>
         <div class="controls">
             <button id="clear" type="button">Clear</button>
+            <button id="submit" type="button">Submit drawing</button>
         </div>
+        <p id="status"></p>
         <script src="{{ url_for('static', filename='draw.js') }}"></script>
     </body>
 </html>

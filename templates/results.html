@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bicylce Drawings: Results</title>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 16px;
+                background: f5f5f0;
+            }
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 16px;
+            }
+
+            .card {
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                padding: 8px;
+            }
+
+            .card img {
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                border: 1px solid #eee;
+                background: white;
+                cursor: zoom-in;
+            }
+
+            dialog {
+                border: none;
+                border-radius: 12px;
+                padding: 0px;
+                width: min(90vw, 900px);
+            }
+
+            dialog::backdrop {
+                background: rgba(0, 0, 0, 0.7);
+            }
+
+            .viewer-content {
+                padding: 16px;
+            }
+
+            #viewer-img {
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                background: white;
+                border: 1px solid #eee;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 6px;
+                background: #333;
+                color: white;
+                cursor: pointer;
+            }
+
+            .name {
+                font-weight: 600;
+                margin: 6px 0 0;
+            }
+
+            .time {
+                color: #666;
+                font-size: 13px;
+                margin: 0;
+            }
+
+            .names-hidden .card .name {
+                visibility: hidden;
+            }
+
+            .name-hidden #viewer-name {
+                visibility: hidden;
+            }
+
+            .viewer-buttons {
+                display: flex;
+                gap: 8px;
+            }
+
+            #toggle-names {
+                margin-bottom: 16px;
+            }
+
+            .button-link {
+                display: inline-blocks;
+                padding: 10px 20px;
+                font-size: 16px;
+                border-radius: 6px;
+                background: #333;
+                color: white;
+                text-decoration: none;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Submissions</h1>
+        <p>{{ submissions|length }} drawings submitted.</p>
+        <button id="toggle-names" type="button">Hide names</button>
+        <a href="{{ url_for('results_csv') }}" class="button-link">Download CSV</a>
+
+        <div class="grid">
+            {% for s in submissions %}
+                <div class="card">
+                    <img src="{{ s['drawing'] }}" alt="Bicycle drawing by {{ s['name'] }}" data-name="{{ s['name'] }}">
+                    <p class="name">{{ s['name'] }}</p>
+                    <p class="time">{{ s['submitted'] }}</p>
+                </div>
+            {% else %}
+                <p>No drawings yet.</p>
+            {% endfor %}
+        </div>
+        <dialog id="viewer">
+            <div class="viewer-content">
+                <img id="viewer-img" alt="">
+                <p id="viewer-name" class="name"></p>
+                <div class="viewer-buttons">
+                    <button id="viewer-toggle-name" type="button">Hide name</button>
+                    <button id="viewer-close" type="button">Close</button>
+                </div>
+            </div>
+        </dialog>
+
+        <script src="{{ url_for('static', filename='results.js') }}"></script>
+    </body>
+</html>
