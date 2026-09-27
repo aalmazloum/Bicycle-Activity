@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Drawing a Bicycle</title>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                max-width: 820px;
+                margin: 0 auto;
+                padding: 16px;
+                background: #f5f5f0;
+            }
+
+            canvas {
+                width: 100%;
+                aspect-ratio: 4 / 3;
+                background: white;
+                border: 2px solid #333;
+                border-radius: 8px;
+                touch-action: none;
+            }
+
+            label {
+                display:block;
+                font-weight: 600;
+                margin-bottom: 4px;
+            }
+
+            input {
+                width: 100%;
+                max-width: 320px;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #999;
+                border-radius: 6px;
+                margin-bottom: 16px;
+            }
+
+            .controls {
+                margin-top: 12px;
+            }
+
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 6px;
+                background: #333;
+                color: white;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Draw a bicycle from memory</h1>
+        <p>Don't look anything up. Just draw what you remember!</p>
+        <label for="name">Your name (optional)</label>
+        <input id="name" type="text" maxlength="50" placeholder="e.g. Alex">
+        <canvas id="board" width="800" height="600"></canvas>
+        <div class="controls">
+            <button id="clear" type="button">Clear</button>
+        </div>
+        <script src="{{ url_for('static', filename='draw.js') }}"></script>
+    </body>
+</html>
