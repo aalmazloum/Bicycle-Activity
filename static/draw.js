@@ -51,12 +51,18 @@ clearButton.addEventListener('click', () => {
 
 const submitButton = document.getElementById('submit');
 const nameInput = document.getElementById('name');
+const tsnInput = document.getElementById('tsn');
 const statusText = document.getElementById('status');
 
 submitButton.addEventListener('click', async () => {
     if (!nameInput.value.trim()) {
         statusText.textContent = 'Please enter your name first.';
         nameInput.focus();
+        return;
+    }
+    if (!tsnInput.value.trim()) {
+        statusText.textContent = 'Please enter your TSN first.';
+        tsnInput.focus();
         return;
     }
     if (!hasDrawn) {
@@ -75,6 +81,7 @@ submitButton.addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name: nameInput.value,
+                tsn: tsnInput.value,
                 drawing: drawing,
             }),
         });
@@ -86,6 +93,7 @@ submitButton.addEventListener('click', async () => {
         statusText.textContent = 'Thanks! Your drawing was submitted!';
         clearButton.disabled = true;
         nameInput.disabled = true;
+        tsnInput.disabled = true;
         canvas.style.pointerEvents = 'none';
         canvas.style.opacity = '0.6';
     } catch (error) {

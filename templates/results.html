@@ -2,14 +2,14 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bicylce Drawings: Results</title>
+        <title>Bicycle Drawings: Results</title>
         <style>
             body {
                 font-family: system-ui, sans-serif;
                 max-width: 1100px;
                 margin: 0 auto;
                 padding: 16px;
-                background: f5f5f0;
+                background: #f5f5f0;
             }
 
             .grid {
@@ -116,7 +116,7 @@
                 <div class="card">
                     <img src="{{ s['drawing'] }}" alt="Bicycle drawing by {{ s['name'] }}" data-name="{{ s['name'] }}">
                     <p class="name">{{ s['name'] }}</p>
-                    <p class="time">{{ s['submitted'] }}</p>
+                    <p class="time">{{ s['submitted_at'] }}</p>
                 </div>
             {% else %}
                 <p>No drawings yet.</p>

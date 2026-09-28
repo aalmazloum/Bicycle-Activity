@@ -12,11 +12,11 @@ def init_db():
         conn.executescript(f.read())
     conn.close()
 
-def save_submission(name, drawing):
+def save_submission(name, tsn, drawing):
     conn = get_connection()
     conn.execute(
-        'INSERT INTO submissions (name, drawing) VALUES (?, ?)',
-        (name, drawing),
+        'INSERT INTO submissions (name, tsn, drawing) VALUES (?, ?, ?)',
+        (name, tsn, drawing),
     )
     conn.commit()
     conn.close()
@@ -24,7 +24,7 @@ def save_submission(name, drawing):
 def get_submissions():
     conn = get_connection()
     rows = conn.execute(
-        "SELECT id, name, drawing, datetime(created_at, 'localtime') AS submitted_at "
+        "SELECT id, name, tsn, drawing, datetime(created_at, 'localtime') AS submitted_at "
         "FROM submissions "
         "ORDER BY name COLLATE NOCASE, id"
     ).fetchall()
