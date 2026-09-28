@@ -101,7 +101,7 @@ function drawOverlay() {
 function showView(view) {
     const isOverlay = view === 'overlay';
     gridView.hidden = isOverlay;
-    overlayView.hidden = isOverlay;
+    overlayView.hidden = !isOverlay;
     showGridButton.classList.toggle('active', !isOverlay);
     showOverlayButton.classList.toggle('active', isOverlay);
     location.hash = view;
