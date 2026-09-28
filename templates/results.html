@@ -89,12 +89,8 @@
                 gap: 8px;
             }
 
-            #toggle-names {
-                margin-bottom: 16px;
-            }
-
             .button-link {
-                display: inline-blocks;
+                display: inline-block;
                 padding: 10px 20px;
                 font-size: 16px;
                 border-radius: 6px;
@@ -103,25 +99,64 @@
                 text-decoration: none;
             }
 
+            .toolbar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 16px;
+            }
+
+            .view-button {
+                background: #ddd;
+                color: #333;
+            }
+
+            .view-button.active {
+                background: #333;
+                color: white;
+            }
+
+            #overlay-view {
+                text-align: center;
+            }
+
+            #overlay {
+                width: 100%;
+                max-width: calc((100vh - 220px) * 4 / 3);
+                aspect-ratio: 4 / 3;
+                background: white;
+                border: 2px solid #333;
+                border-radius: 8px;
+            }
+
         </style>
     </head>
-    <body>
+    <body class="names-hidden">
         <h1>Submissions</h1>
         <p>{{ submissions|length }} drawings submitted.</p>
-        <button id="toggle-names" type="button">Hide names</button>
-        <a href="{{ url_for('results_csv') }}" class="button-link">Download CSV</a>
-
-        <div class="grid">
-            {% for s in submissions %}
-                <div class="card">
-                    <img src="{{ s['drawing'] }}" alt="Bicycle drawing by {{ s['name'] }}" data-name="{{ s['name'] }}">
-                    <p class="name">{{ s['name'] }}</p>
-                    <p class="time">{{ s['submitted_at'] }}</p>
-                </div>
-            {% else %}
-                <p>No drawings yet.</p>
-            {% endfor %}
+        <div class="toolbar">
+            <button id="show-grid" type="button" class="view-button active">Drawings</button>
+            <button id="show-overlay" type="button" class="view-button">Overlay</button>
+            <button id="toggle-names" type="button">Show names</button>
+            <button id="refresh" type="button">Refresh</button>
+            <a href="{{ url_for('results_csv') }}" class="button-link">Download CSV</a>
         </div>
+        <section id="grid-view">
+            <div class="grid">
+                {% for s in submissions %}
+                    <div class="card">
+                        <img src="{{ s['drawing'] }}" alt="Bicycle drawing by {{ s['name'] }}" data-name="{{ s['name'] }}">
+                        <p class="name">{{ s['name'] }}</p>
+                        <p class="time">{{ s['submitted_at'] }}</p>
+                    </div>
+                {% else %}
+                    <p>No drawings yet.</p>
+                {% endfor %}
+            </div>
+        </section>
+        <section id="overlay-view" hidden>
+            <canvas id="overlay" width="800" height="600"></canvas>
+        </section>
         <dialog id="viewer">
             <div class="viewer-content">
                 <img id="viewer-img" alt="">
