@@ -17,6 +17,10 @@ function getPoint(event) {
     };
 }
 
+function markMissing(element, isMissing) {
+    element.classList.toggle('missing', isMissing);
+}
+
 canvas.addEventListener('pointerdown', (event) => {
     drawing = true;
     const p = getPoint(event);
@@ -30,6 +34,7 @@ canvas.addEventListener('pointermove', (event) => {
     ctx.lineTo(p.x, p.y);
     ctx.stroke();
     hasDrawn = true;
+    markMissing(canvas, false);
 });
 
 canvas.addEventListener('pointerup', () => {
@@ -55,18 +60,21 @@ const tsnInput = document.getElementById('tsn');
 const statusText = document.getElementById('status');
 
 submitButton.addEventListener('click', async () => {
-    if (!nameInput.value.trim()) {
-        statusText.textContent = 'Please enter your name first.';
-        nameInput.focus();
-        return;
-    }
-    if (!tsnInput.value.trim()) {
-        statusText.textContent = 'Please enter your TSN first.';
-        tsnInput.focus();
-        return;
-    }
-    if (!hasDrawn) {
-        statusText.textContent = 'Please draw your bicycle first.';
+    const nameMissing = !nameInput.value.trim();
+    const tsnMissing = !tsnInput.value.trim();
+    const drawingMissing = !hasDrawn;
+
+    markMissing(nameInput, nameMissing);
+    markMissing(tsnInput, tsnMissing);
+    markMissing(canvas, drawingMissing);
+
+    if (nameMissing || tsnMissing || drawingMissing) {
+        statusText.textContent = 'Please fill in everything outlined in red.';
+        if (nameMissing) {
+            nameInput.focus();
+        } else if (tsnMissing) {
+            tsnInput.focus();
+        }
         return;
     }
 
@@ -101,4 +109,12 @@ submitButton.addEventListener('click', async () => {
         statusText.textContent = 'Something went wrong. Please try again.';
         submitButton.disabled = false;
     }
+});
+
+nameInput.addEventListener('input', () => {
+    markMissing(nameInput, false);
+});
+
+tsnInput.addEventListener('input', () => {
+    markMissing(tsnInput, false);
 });
