@@ -1,7 +1,7 @@
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 
-ctx.lineWidth = 4;
+ctx.lineWidth = 8;
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round';
 ctx.strokeStyle = '#222';

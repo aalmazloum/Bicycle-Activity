@@ -47,8 +47,13 @@ const overlayCanvas = document.getElementById('overlay');
 const overlayCtx = overlayCanvas.getContext('2d');
 const drawingImages = document.querySelectorAll('.card img');
 
-const STRENGTH = 5;
+// Higher = darker lines overall
+const STRENGTH = 8;
 
+// How much of the canvas each drawing is scaled to fill (0.8 = 80%)
+const FILL = 0.8;
+
+// Box around each drawing's lines (filled in once the images load)
 let bounds = [];
 
 function findBounds(img) {
@@ -76,7 +81,7 @@ function findBounds(img) {
         }
     }
 
-    if (maxX === -1)  {
+    if (maxX === -1) {
         return null;
     }
 
@@ -84,15 +89,28 @@ function findBounds(img) {
 }
 
 function drawOverlay() {
-    overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+    const width = overlayCanvas.width;
+    const height = overlayCanvas.height;
+
+    overlayCtx.clearRect(0, 0, width, height);
+    overlayCtx.imageSmoothingQuality = 'high';
     overlayCtx.globalAlpha = Math.min(1, STRENGTH / Math.max(drawingImages.length, 1));
 
     drawingImages.forEach((img, i) => {
         const b = bounds[i];
         if (!b) return;
-        const x = (overlayCanvas.width - b.width) / 2 - b.x;
-        const y = (overlayCanvas.height - b.height) / 2 - b.y;
-        overlayCtx.drawImage(img, x, y);
+
+        // Scale so this drawing fills the same box as every other one
+        const scale = Math.min((width * FILL) / b.width, (height * FILL) / b.height);
+        const w = b.width * scale;
+        const h = b.height * scale;
+
+        // Copy just the box around the lines, resized, into the center
+        overlayCtx.drawImage(
+            img,
+            b.x, b.y, b.width, b.height,
+            (width - w) / 2, (height - h) / 2, w, h,
+        );
     });
 
     overlayCtx.globalAlpha = 1;

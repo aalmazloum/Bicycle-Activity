@@ -140,6 +140,7 @@
             <button id="toggle-names" type="button">Show names</button>
             <button id="refresh" type="button">Refresh</button>
             <a href="{{ url_for('results_csv') }}" class="button-link">Download CSV</a>
+            <a href="{{ url_for('logout') }}" class="button-link">Log out</a>
         </div>
         <section id="grid-view">
             <div class="grid">
@@ -155,7 +156,7 @@
             </div>
         </section>
         <section id="overlay-view" hidden>
-            <canvas id="overlay" width="800" height="600"></canvas>
+            <canvas id="overlay" width="1600" height="1200"></canvas>
         </section>
         <dialog id="viewer">
             <div class="viewer-content">
